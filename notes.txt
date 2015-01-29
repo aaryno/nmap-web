@@ -1,0 +1,2 @@
+mysql: root/crowdstrike, nmap/falcon
+mysqld: 1976Weather!

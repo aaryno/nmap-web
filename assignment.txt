@@ -1,0 +1,41 @@
+CS Engineering Take Home Project
+Objective: To gain an understanding of programming skills and ability to complete a task in a timely manner
+
+Project: 
+This projects aims to use a toy example to validate understanding of programming concepts and ability to create a project from scratch.
+Estimation: 1 - 3 days
+
+User Story
+As an engineer I’d like to understand what ports are accessible on a given host to ensure that firewall rules have been applied correctly while debugging. I’d also like to understand the history of that host to see if anything has recently changed.
+
+Acceptance Criteria:
+Given a webpage with a blank text box
+When a user types in an ip or hostname
+Then an NMAP scan is done (using the NMAP command line tool) against ports 0-1000 which returns the open ports back the UI page for that host
+
+Given a webpage with a blank text box
+When a user types in an invalid ip or hostname
+Then an error message should appear asking the user to re-submit
+
+Given a webpage with a blank text box 
+When a user types in an ip or hostname
+Then the results of the latest scan appear as well as the history of previous scans for that host
+
+Given a user submitting an ip or hostname into the textbox
+When ports are different from the previous query
+Then a list of ports that have been added and/or subtracted will be visible to the user for example if port 80 is open now but wasn’t open on the previous run that should be called out
+
+Given a user looking to interact with this project as a webservice
+When an HTTP call is made to a specified endpoint
+Then the history of an ip address or hostname is returned in a JSON format
+
+Technical Requirements:
+Project needs to be written in Python, PHP, Scala, Go, or Java	
+Project needs to use the NMAP command line tool
+Port scan history must be stored and displayed via a MySQL database
+a README should be provided with instructions on how to run the project assuming the person running it has MySQL installed
+
+Bonus Points (can be none, or 1 or more):
+Ability to input multiple IPs or hosts and the scans of those ip/hosts are done in parallel
+DB tables are properly indexed
+Unit tests

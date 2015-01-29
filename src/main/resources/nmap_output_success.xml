@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///usr/local/bin/../share/nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 6.47 scan initiated Wed Jan 28 16:56:08 2015 as: nmap -oX f -v 
+	-p 80 gosogasdasdasdle.coft -->
+<nmaprun scanner="nmap" args="nmap -oX f -v -p 80 gosogasdasdasdle.coft"
+	start="1422485768" startstr="Wed Jan 28 16:56:08 2015" version="6.47"
+	xmloutputversion="1.04">
+	<scaninfo type="connect" protocol="tcp" numservices="1"
+		services="80" />
+	<verbose level="1" />
+	<debugging level="0" />
+	<taskbegin task="Ping Scan" time="1422485768" />
+	<taskend task="Ping Scan" time="1422485768" extrainfo="1 total hosts" />
+	<taskbegin task="Parallel DNS resolution of 1 host." time="1422485768" />
+	<taskend task="Parallel DNS resolution of 1 host." time="1422485768" />
+	<taskbegin task="Connect Scan" time="1422485768" />
+	<taskend task="Connect Scan" time="1422485768" extrainfo="1 total ports" />
+	<host starttime="1422485768" endtime="1422485768">
+		<status state="up" reason="syn-ack" reason_ttl="0" />
+		<address addr="198.105.244.24" addrtype="ipv4" />
+		<hostnames>
+			<hostname name="gosogasdasdasdle.coft" type="user" />
+		</hostnames>
+		<ports>
+			<port protocol="tcp" portid="80">
+				<state state="open" reason="syn-ack" reason_ttl="0" />
+				<service name="http" method="table" conf="3" />
+			</port>
+		</ports>
+		<times srtt="57775" rttvar="37225" to="206675" />
+	</host>
+	<runstats>
+		<finished time="1422485768" timestr="Wed Jan 28 16:56:08 2015"
+			elapsed="0.20"
+			summary="Nmap done at Wed Jan 28 16:56:08 2015; 1 IP address (1 host up) scanned in 0.20 seconds"
+			exit="success" />
+		<hosts up="1" down="0" total="1" />
+	</runstats>
+</nmaprun>
