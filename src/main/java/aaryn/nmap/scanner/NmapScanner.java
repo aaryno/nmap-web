@@ -175,11 +175,9 @@ public class NmapScanner {
 								   hostAlias=new HostAlias();
 								   hostAlias.setInternetHost(internetHost);
 							   }
-							   if (internetHost.getHostAliases()==null){
-								   internetHost.setHostAliases(new HashSet<HostAlias>());
-							   }
 							   internetHost.getHostAliases().add(hostAlias);
 							   hostAlias.setFqdn(hostname);
+							   System.out.println("hostalias fqdn: "+hostAlias.getFqdn());
 						   }
 						   System.out.println("hostname: "+hostname);
 					   }

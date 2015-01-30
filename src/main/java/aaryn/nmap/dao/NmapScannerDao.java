@@ -104,7 +104,7 @@ public class NmapScannerDao {
 		session.saveOrUpdate(nmapScan.getInternetHost());
 		tx.commit(); 
 		tx=session.beginTransaction();
-		session.saveOrUpdate(nmapScan);
+		session.save(nmapScan);
 		tx.commit(); 
 		session.close();
 	}

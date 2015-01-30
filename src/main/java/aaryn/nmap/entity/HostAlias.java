@@ -26,7 +26,7 @@ public class HostAlias
 	}
 
     @ManyToOne
-    @JoinColumn(name="i")
+    @JoinColumn(name="internetHostId")
     private InternetHost internetHost;
     
 	public InternetHost getInternetHost() {
