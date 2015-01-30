@@ -1,12 +1,14 @@
 package aaryn.nmap;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Properties;
 
 import aaryn.nmap.dao.NmapScannerDao;
 import aaryn.nmap.entity.HostAlias;
 import aaryn.nmap.entity.InternetHost;
 import aaryn.nmap.entity.NmapScan;
+import aaryn.nmap.entity.ScanPort;
 import aaryn.nmap.scanner.NmapScanner;
 import aaryn.nmap.util.NmapWebProperties;
 import junit.framework.Test;
@@ -84,7 +86,7 @@ public class AppTest
     
     public void testNmapHostSuccess() {
     	String host="google.com";
-    	String ports="0-100";
+    	String ports="70-90";
     	try {
     		NmapScan nmapScan=NmapScanner.scan(host,ports);
 			assertTrue(nmapScan.isHostFound());
@@ -97,7 +99,7 @@ public class AppTest
     
     public void testNmapMultiHosts() {
     	String hosts="google.com,yahoo.com";
-    	String ports="80-100";
+    	String ports="70-90";
     	String[] hostArray=hosts.split(",");
     	for (String host : hostArray){
     		NmapScan nmapScan;
@@ -215,19 +217,38 @@ public class AppTest
     	}
     }
 
-    public void testDatabasePopulateFullScanRepeated() {
+    public void testRetrieveScanHistory() {
     	try {
         	String host="yahoo.com";
-        	String ports="0-100";
+        	String ports="70-90";
         	try {
-        		NmapScan nmapScan=NmapScanner.scan(host,ports);
-    			assertTrue(nmapScan.isHostFound());
-    			
+        		NmapScan nmapScan1=NmapScanner.scan(host,ports);
+    			assertTrue(nmapScan1.isHostFound());
         		InternetHost internetHost=NmapScannerDao.getInstance().retrieveHost(host);
     	        assert(internetHost==null);
+    	        NmapScannerDao.getInstance().saveNmapScan(nmapScan1);
+
+        		NmapScan nmapScan2=NmapScanner.scan(host,ports);
+        		nmapScan2.getScanPorts().get(10).setState("filtered");
+        		nmapScan2.getScanPorts().get(11).setState("open");
+    	        NmapScannerDao.getInstance().saveNmapScan(nmapScan2);
+
+        		NmapScan nmapScan3=NmapScanner.scan(host,ports);
+        		nmapScan3.getScanPorts().get(12).setState("filtered");
+    	        NmapScannerDao.getInstance().saveNmapScan(nmapScan3);
     	        
-    	        NmapScannerDao.getInstance().saveNmapScan(nmapScan);
-    	        
+    	        List<NmapScan> nmapScanList=NmapScannerDao.getInstance().
+    	        		retrieveNmapScansByHost(internetHost.getIp());
+    	        System.out.println("NMAP SIZE: "+nmapScanList.size());
+    	        assertTrue(nmapScanList.size()>=3);
+    	        for (NmapScan nmapScan : nmapScanList){
+    	        	System.out.println("nmapscan: "+nmapScan.getId()+" - "+
+			    	        nmapScan.getInternetHost().getIp()+","+nmapScan.getInternetHost().
+			    	        getHostAliases().iterator().next().getFqdn());
+    	        	for (ScanPort scanPort : nmapScan.getScanPorts()){
+//        	        	System.out.println("port: "+scanPort.getPort()+": "+scanPort.getState());
+    	        	}
+    	        }
     	        
     		} catch (IOException e) {
     			// TODO Auto-generated catch block
@@ -239,6 +260,7 @@ public class AppTest
     		fail("Unable to fetch: "+e.getMessage());
     	}
     }
+    
     /**
      *  ************** WEB SERVICE TESTS **************
      */

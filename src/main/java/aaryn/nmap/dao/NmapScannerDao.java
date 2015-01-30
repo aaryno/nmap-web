@@ -1,5 +1,7 @@
 package aaryn.nmap.dao;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.hibernate.Criteria;
@@ -49,7 +51,7 @@ public class NmapScannerDao {
 	public void insertNmapScan(NmapScan nmapScan) {
 		Session session = getSessionFactory().openSession();
 		Transaction tx=session.beginTransaction();
-		session.save(nmapScan);
+		session.saveOrUpdate(nmapScan);
 		tx.commit(); 
 		session.close();
 	}
@@ -57,7 +59,7 @@ public class NmapScannerDao {
 	public void saveInternetHost(InternetHost internetHost){
 		Session session = getSessionFactory().openSession();
 		Transaction tx=session.beginTransaction();
-		session.save(internetHost);
+		session.saveOrUpdate(internetHost);
 		tx.commit(); 
 		session.close();
 	}
@@ -91,22 +93,19 @@ public class NmapScannerDao {
 	public void saveHostAlias(HostAlias hostAlias){
 		Session session = getSessionFactory().openSession();
 		Transaction tx=session.beginTransaction();
-		session.save(hostAlias);
+		session.saveOrUpdate(hostAlias);
 		tx.commit(); 
 		session.close();
 	}
+	
 	public void saveNmapScan(NmapScan nmapScan){
 		Session session = getSessionFactory().openSession();
 		Transaction tx=session.beginTransaction();
-		session.save(nmapScan.getInternetHost());
+		session.saveOrUpdate(nmapScan.getInternetHost());
 		tx.commit(); 
 		tx=session.beginTransaction();
-		session.save(nmapScan);
+		session.saveOrUpdate(nmapScan);
 		tx.commit(); 
-//		session.refresh(nmapScan);
-//		for (ScanPort scanPort : nmapScan.getScanPorts()){
-//			
-//		}
 		session.close();
 	}
 	
@@ -128,6 +127,7 @@ public class NmapScannerDao {
 		session.close();
 		return null;
 	}
+	
 	public InternetHost retrieveHostByIp(String ip){
 		Session session = getSessionFactory().openSession();
 		Transaction tx=session.beginTransaction();
@@ -142,6 +142,7 @@ public class NmapScannerDao {
 		}
 		return null;
 	}
+	
 	public HostAlias retrieveHostAliasByFqdn(String fqdn){
 		Session session = getSessionFactory().openSession();
 		Transaction tx=session.beginTransaction();
@@ -154,6 +155,8 @@ public class NmapScannerDao {
 			session.close();
 			return alias;
 		}
+		tx.commit();
+		session.close();
 		return null;
 	}
 	
@@ -166,25 +169,24 @@ public class NmapScannerDao {
 		}
 		return host;
 	}
+	public List<NmapScan> retrieveNmapScansByHost(String host) {
+		InternetHost internetHost=retrieveHost(host);
+		if (internetHost==null){
+			return null;
+		}
+		List<NmapScan> nmapScanList=new ArrayList<>();
+		Session session = getSessionFactory().openSession();
+		Transaction tx=session.beginTransaction();
+		Query query=session.createQuery("from NmapScan as scan where scan.internetHost.ip=:ip");
+		query.setParameter("ip",internetHost.getIp());
+		List<NmapScan> list=query.list();
+		Iterator<NmapScan> iterator=list.iterator();
+		while (iterator.hasNext()){
+			nmapScanList.add(iterator.next());
+		}
+		tx.commit();
+		session.close();
+		return nmapScanList;
+	}
 	
-//	public void insertScanPort(ScanPort scanPort) {
-//		Session session = getSessionFactory().getCurrentSession();
-//		session.beginTransaction();
-//		session.save(scanPort);
-//		session.getTransaction().commit(); 
-//	}
-//	 
-//	public List<NmapScan> selectScansByHost(String hostname) {
-//		Session session = getSessionFactory().getCurrentSession();
-//		session.beginTransaction();
-//		
-//		// 1. get appropriate host from hosts table
-//		
-//		// 2. get all scans for this host
-//		Criteria criteria = session.createCriteria(NmapScan.class);
-//		criteria.add(session.createCriteria(arg0, arg1));
-//		List<NmapScan> nmapScans = (List<NmapScan>) criteria.list();
-//		session.getTransaction().commit();
-//		return nmapScans;
-//	}
 }

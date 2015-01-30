@@ -1,5 +1,6 @@
 package aaryn.nmap.entity;
 
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -10,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -62,16 +64,4 @@ public class InternetHost
 	public void setHostAliases(Set<HostAlias> hostAliases) {
 		this.hostAliases = hostAliases;
 	}
-	
-//	@OneToMany(mappedBy="id", fetch=FetchType.LAZY)
-//	private Set<NmapScan> nmapScans;
-//
-//	public Set<NmapScan> getNmapScans() {
-//		return nmapScans;
-//	}
-//
-//	public void setNmapScans(Set<NmapScan> nmapScans) {
-//		this.nmapScans = nmapScans;
-//	}
-
 }

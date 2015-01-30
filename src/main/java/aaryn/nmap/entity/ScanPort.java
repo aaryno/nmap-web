@@ -60,7 +60,10 @@ public class ScanPort {
 	public void setState(String state) {
 		this.state = state;
 	}
-	
+
+	public ScanPort(){
+		
+	}
 	public ScanPort(Integer port, String state, NmapScan nmapScan) {
 		this.port=port;
 		this.state=state;

@@ -29,6 +29,9 @@ public class NmapScanner {
 	private static Map<Integer,String> portStateMap =new HashMap<>();
 	private static String ports="0-100";
 
+	public static List<NmapScan> getScans(String host){
+		return NmapScannerDao.getInstance().retrieveNmapScansByHost( host);
+	}
 	public static NmapScan scan(String host, String portRange) throws IOException
 	{
 		List<Integer> ports=getPortsFromPortRange(portRange);
@@ -137,9 +140,12 @@ public class NmapScanner {
 				   String ipType=addressElement.getAttributeValue("addrtype");
 				   internetHost=NmapScannerDao.getInstance().retrieveHostByIp(ip);
 				   if (internetHost==null){
+					   System.out.println("UNABLE to find host for ip "+ip);
 					   internetHost=new InternetHost();
 					   internetHost.setIp(ip);
 					   internetHost.setIpType(ipType);
+				   } else {
+					   System.out.println("DUPE hostname found for "+ip);
 				   }
 				   nmapScan.setInternetHost(internetHost);
 				   System.out.println("ip: "+ip+", "+ipType);
