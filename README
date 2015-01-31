@@ -10,20 +10,13 @@ Update src/main/resources/nmapweb.properties with path to nmap.
 
 2. CREATE DATABASE
 
-First, make sure you have a user/pass in your favorite database with the right privileges to create tables.
-You can create the table using hb2ddl or by utilizing the create_tables.sql script in src/main/resources.
-Either way, you will need to edit src/main/resources/hibernate.cfg.xml and update the path to the mysql
-server and the database username and password. 
+First, make sure you have a user/pass in your favorite database with the right privileges to create tables. You can create the table using hb2ddl or by utilizing the create_tables.sql script in src/main/resources. Either way, you will need to edit src/main/resources/hibernate.cfg.xml and update the path to the mysql server and the database username and password. 
 
 2a. create tables using hbm2ddl:
-In the src/main/resources/hibernate.cfg.xml file, set the hibernate.hbm2ddl.auto property to "create". 
-Next, execute the maven "clean" target. This has the added benefit of running the unit tests. Once you have 
-created the database, immediately set te property back to "update" or you will lose all database updates
-every time the program is executed.
+In the src/main/resources/hibernate.cfg.xml file, set the hibernate.hbm2ddl.auto property to "create".  Next, execute the maven "clean" target. This has the added benefit of running the unit tests. Once you have  created the database, immediately set te property back to "update" or you will lose all database updates every time the program is executed.
 
 2b. use the sql script:
-In the src/main/resources, use the create_tables.sql script to generate the tables from the nmapscans
-database (or whatever you decide to name it).
+In the src/main/resources, use the create_tables.sql script to generate the tables from the nmapscans database (or whatever you decide to name it).
 
 3. BUILD APPLICATION
 
@@ -39,9 +32,7 @@ Deploy the grizzly engine using maven:
 
 It will continue to run until you press Enter key on the console.
 
-Once the application is up and running, go to your web browser. The default url is 
-http://localhost:8080/html/index.html. If you changed the port in the nmapweb.properties
-file it would be reflected here.
+Once the application is up and running, go to your web browser. The default url is http://localhost:8080/html/index.html. If you changed the port in the nmapweb.properties file it would be reflected here.
 
 Enter an arbitrary number of hosts or IP addresses, separated by commas. 
 
