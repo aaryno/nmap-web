@@ -33,7 +33,7 @@ changes.
 				$("#history").empty();
 
 				$.each(hosts, function (i, host){
-					vhost=host.replace('.','_');
+					vhost=host.replace(/\./g,'_');
 					$("#results").append('<div id="results_'+vhost+'"/>');
 					$("#changes").append('<div id="changes_'+vhost+'"/>');
 					$("#history").append('<div id="history_'+vhost+'"/>');
@@ -49,7 +49,7 @@ changes.
 				
 
 				function displayScanResults(data,host) {
-					vhost=host.replace('.','_');
+					vhost=host.replace(/\./g,'_');
 					if (data==null){
 						$('#scanning_'+vhost).append(" Invalid host ("+host+"). Please Resubmit");
 					} else {
@@ -67,22 +67,23 @@ changes.
 							});
 							scanHtml+='</p>';
 	
-							$('#results_'+vhost).append('Scan results for '+host+':<br/>'+scanHtml);
+							$('#results_'+vhost).append('Scan results for '+host+' ('+item.ip+'):<br/>'+scanHtml);
+
+					        var historyHostUrl = '/nmap/history/'+item.ip;
+							$.get(historyHostUrl, function (data) {
+							    displayHistoryResults(data,host,item.ip);
+							});
 						});
 						$('#scanning_'+vhost).empty();
 
-				        var historyHostUrl = '/nmap/history/'+host;
-						$.get(historyHostUrl, function (data) {
-						    displayHistoryResults(data,host);
-						});
 					}
 				}
 
-				function displayHistoryResults(siteScanHistory,host) {
-					vhost=host.replace('.','_');
+				function displayHistoryResults(siteScanHistory,host,ip) {
+					vhost=host.replace(/\./g,'_');
 					var historyHtml='';
 					var changesHtml='';
-					historyHtml='<p>Scan history for '+host+'- <span style="color: Red;">red</span> denotes change in status<br/>';
+					historyHtml='<p>Scan history for '+host+' ('+ip+') - <span style="color: Red;">red</span> denotes change in status<br/>';
 					historyHtml+='<table><tr><th>&nbsp;</th>';
 					var secondRow='<tr><th>&nbsp;</th>'
 					var lastymd=''
@@ -111,17 +112,19 @@ changes.
 							var scanRow=siteScanHistory.portStateArray[j];
 							var state=siteScanHistory.portStateArray[j].item[i];
 							
-							if (j>0 && state != siteScanHistory.portStateArray[j-1].item[i]){
+							if (j>0 && state != siteScanHistory.portStateArray[j-1].item[i] && 
+									state != null && siteScanHistory.portStateArray[j-1].item[i]!=null ){
 								var oldstate=siteScanHistory.portStateArray[j-1].item[i];
 								// note some change in open/closed ports
 								varThisRow+='<td style="color: Red;">'+state+'</td>';
 								if (j==siteScanHistory.scanDates.length-1){
 									if (!changes){
-										changesHtml+='<p>Changes for '+host+':<br/>';
-										changesHtml=true;
+										changesHtml+='<p>Changes for '+host+' ('+ip+'):<br/>';
+										changes=true;
 									}
 									changesHtml+='port: '+port+' is: '+state+' -- was: '+oldstate+'<br/>';
 								}
+								if (changes){ changesHtml+='</p>'}
 							} else {
 								varThisRow+='<td>'+state+'</td>';
 							}
@@ -137,7 +140,7 @@ changes.
 					}
 					if (!changes){
 
-						changesHtml+='<p>Changes for '+host+':<br/>No changes in port status from last scan</p>';
+						changesHtml+='<p>Changes for '+host+' ('+ip+'):<br/>No changes in port status from last scan</p>';
 					} else {
 						changesHtml+='</p>';
 					}
