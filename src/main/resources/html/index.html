@@ -6,36 +6,25 @@
 
 	<script src="/html/jquery-1.11.2.min.js"></script>
 	<script>
-		if (typeof String.prototype.startsWith != 'function') {
-		  // see below for better implementation!
-		  String.prototype.startsWith = function (str){
-		    return this.indexOf(str) == 0;
-		  };
-		}
 		$(document).ready(function() {
-			$(document).keypress(function(e){
-			    if (e.which == 13){
-			        $("#scanButton").click();
-			    }
-			});
 			$("#scanButton").click(function(event) {
 				// notify Scanning...
 				var hosts=$("#host").val().split(",");
 		        
-				$("#results").text('');
-				$("#changes").text('');
-				$("#history").text('');
+				$("#results").empty();
+				$("#changes").empty();
+				$("#history").empty();
 
 				$.each(hosts, function (i, host){
-					$("#results").add('<div id="results.'+host+'"/>"');
-					$("#changes").add('<div id="changes.'+host+'"/>"');
-					$("#history").add('<div id="history.'+host+'"/>"');
-					$("#scanning").add('<div id="scanning.'+host+'"/>"');
+					vhost=host.replace('.','_');
+					$("#results").append('<div id="results_'+vhost+'"/>');
+					$("#changes").append('<div id="changes_'+vhost+'"/>');
+					$("#history").append('<div id="history_'+vhost+'"/>');
+					$("#scanning").append('<div id="scanning_'+vhost+'"/>');
 
 			        var scanHostUrl = '/nmap/scan/'+host;
-					$("#scanning."+host).append('Scanning '+host+'...<br>');
+					$('#scanning_'+vhost).append('Scanning '+host+'...<br>');
 
-					var result = "";
 					$.get(scanHostUrl, function (data) {
 					    displayScanResults(data,host);
 					});
@@ -43,12 +32,13 @@
 				
 
 				function displayScanResults(data,host) {
+					vhost=host.replace('.','_');
 					if (data==null){
-						$("#scanning."+host).append(" Invalid host. Please Resubmit");
+						$('#scanning_'+vhost).append(" Invalid host ("+host+"). Please Resubmit");
 					} else {
 						var scanHtml='';
 						$.each(data, function (i,item) {
-							scanHtml+='<p>IP address: '+item.ip+'<br/>';
+							scanHtml+='IP address: '+item.ip+'<br/>';
 							scanHtml+='Open ports: ';
 							var k=0;
 							$.each(item.openPorts, function (j, port){
@@ -60,9 +50,9 @@
 							});
 							scanHtml+='</p>';
 	
-							$("#results."+host).append('Scan results'+scanHtml);
+							$('#results_'+vhost).append('Scan results for '+host+':<br/>'+scanHtml);
 						});
-						$("#scanning."+host).text('');
+						$('#scanning_'+vhost).empty();
 
 				        var historyHostUrl = '/nmap/history/'+host;
 						$.get(historyHostUrl, function (data) {
@@ -72,6 +62,7 @@
 				}
 
 				function displayHistoryResults(siteScanHistory,host) {
+					vhost=host.replace('.','_');
 					var historyHtml='';
 					var changesHtml='';
 					historyHtml='<p>Scan history for '+host+'- <span style="color: Red;">red</span> denotes change in status<br/>';
@@ -109,7 +100,7 @@
 								varThisRow+='<td style="color: Red;">'+state+'</td>';
 								if (j==siteScanHistory.scanDates.length-1){
 									if (!changes){
-										changesHtml+='<p>Changes for '+host+'<br/>';
+										changesHtml+='<p>Changes for '+host+':<br/>';
 										changesHtml=true;
 									}
 									changesHtml+='port: '+port+' is: '+state+' -- was: '+oldstate+'<br/>';
@@ -117,10 +108,8 @@
 							} else {
 								varThisRow+='<td>'+state+'</td>';
 							}
-							/* console.log(i+','+j+','+state); */
-							if (state!=null && state.startsWith('open')){
+							if (state!=null && state=='open' || state=='open|filtered'){
 								interestingPort=true;
-							/* 	console.log('Interesting: '+state+' at '+i+','+j); */
 							}
 						}
 						varThisRow+='</tr>';
@@ -131,13 +120,13 @@
 					}
 					if (!changes){
 
-						changesHtml+='<p>Changes<br/>No changes in port status from last scan</p>';
+						changesHtml+='<p>Changes for '+host+':<br/>No changes in port status from last scan</p>';
 					} else {
 						changesHtml+='</p>';
 					}
 					historyHtml+='</table></p>';
-					$("#history."+host).append(historyHtml);
-					$("#changes."+host).append(changesHtml);
+					$('#history_'+vhost).append(historyHtml);
+					$('#changes_'+vhost).append(changesHtml);
 				}
 			});
 		});
