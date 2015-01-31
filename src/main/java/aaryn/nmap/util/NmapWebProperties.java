@@ -14,11 +14,11 @@ public class NmapWebProperties {
 
 	private static NmapWebProperties instance;
 	private static Properties properties;
- 
-	private NmapWebProperties() throws IOException{
+
+	private NmapWebProperties() throws IOException {
 		loadProperties();
 	}
-	
+
 	public Properties getProperties() {
 		return properties;
 	}
@@ -27,27 +27,31 @@ public class NmapWebProperties {
 		NmapWebProperties.properties = properties;
 	}
 
-	public static synchronized NmapWebProperties getInstance() throws IOException{
-		if (instance==null){
-			instance=new NmapWebProperties();
+	public static synchronized NmapWebProperties getInstance()
+			throws IOException {
+		if (instance == null) {
+			instance = new NmapWebProperties();
 		}
 		return instance;
 	}
-	
-	private static Properties loadProperties() throws IOException{
-		properties=new Properties();
-    	InputStream inputStream=null;
-    	String resource="nmapweb.properties";
-		inputStream = NmapWebProperties.class.getClassLoader().getResourceAsStream(resource);
+
+	private static Properties loadProperties() throws IOException {
+		properties = new Properties();
+		InputStream inputStream = null;
+		String resource = "nmapweb.properties";
+		inputStream = NmapWebProperties.class.getClassLoader()
+				.getResourceAsStream(resource);
 		properties.load(inputStream);
 
 		if (inputStream != null) {
 			try {
 				inputStream.close();
 			} catch (IOException e) {
-	    		System.err.println("Unable to close resource file: "+resource);
+				System.err
+						.println("Unable to close resource file: " + resource);
 				e.printStackTrace();
-				// todo: what's most appropriate here. Do we have our properties or not?
+				// todo: what's most appropriate here. Do we have our properties
+				// or not?
 			}
 		}
 		return properties;

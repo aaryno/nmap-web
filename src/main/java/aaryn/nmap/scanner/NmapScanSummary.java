@@ -4,8 +4,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import aaryn.nmap.PortState;
-
 /**
  * Contains detailed information about an individual nmap scan.
  * 
@@ -14,7 +12,7 @@ import aaryn.nmap.PortState;
  */
 public class NmapScanSummary {
 
-	private Map<Integer,PortState> portStates;
+	private Map<Integer, PortState> portStates;
 	private String scanOutputStdout;
 	private String scanOutputStderr;
 	private String host;
@@ -23,10 +21,10 @@ public class NmapScanSummary {
 	private int exitStatus;
 	private boolean interrupted;
 	private boolean unknownHost;
-	
-	public NmapScanSummary(){
-		this.portStates=new HashMap<>();
-		this.unknownHost=false;
+
+	public NmapScanSummary() {
+		this.portStates = new HashMap<>();
+		this.unknownHost = false;
 	}
 
 	public int getExitStatus() {
@@ -86,10 +84,10 @@ public class NmapScanSummary {
 	}
 
 	public void setPortState(Integer port, PortState portState) {
-		this.portStates.put(port,portState);
+		this.portStates.put(port, portState);
 	}
-	
-	public Map<Integer,PortState> getPortStates(){
+
+	public Map<Integer, PortState> getPortStates() {
 		return this.portStates;
 	}
 
@@ -100,7 +98,5 @@ public class NmapScanSummary {
 	public void setUnknownHost(boolean unknownHost) {
 		this.unknownHost = unknownHost;
 	}
-	
 
-	
 }

@@ -17,8 +17,8 @@ import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 /**
- * Hibernate entity class representing the guts of an nmap scan, including the host,
- * the scan time, and all the port states.
+ * Hibernate entity class representing the guts of an nmap scan, including the
+ * host, the scan time, and all the port states.
  * 
  * @author aaryno1
  *
@@ -27,10 +27,10 @@ import javax.persistence.Table;
 @Table(name = "NmapScan")
 public class NmapScan {
 
-	public NmapScan(){
-		scanPorts=new ArrayList<>();
+	public NmapScan() {
+		scanPorts = new ArrayList<>();
 	}
-	
+
 	@Id
 	@GeneratedValue
 	@Column(name = "id")
@@ -44,9 +44,9 @@ public class NmapScan {
 		this.id = id;
 	}
 
-	@Column(name="error")
+	@Column(name = "error")
 	private String error;
-	
+
 	public String getError() {
 		return error;
 	}
@@ -66,9 +66,9 @@ public class NmapScan {
 		this.scanDate = scanDate;
 	}
 
-	@Column(name="hostFound")
+	@Column(name = "hostFound")
 	private boolean hostFound;
-	
+
 	public boolean isHostFound() {
 		return hostFound;
 	}
@@ -77,8 +77,8 @@ public class NmapScan {
 		this.hostFound = hostFound;
 	}
 
-	@ManyToOne(fetch=FetchType.EAGER,cascade={ CascadeType.ALL })
-	@JoinColumn(name="internetHostId")
+	@ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.ALL })
+	@JoinColumn(name = "internetHostId")
 	private InternetHost internetHost;
 
 	public InternetHost getInternetHost() {
@@ -89,9 +89,10 @@ public class NmapScan {
 		this.internetHost = internetHost;
 	}
 
-    @OneToMany(mappedBy="nmapScan", fetch=FetchType.EAGER, cascade={ CascadeType.ALL })
+	@OneToMany(mappedBy = "nmapScan", fetch = FetchType.EAGER, cascade = { CascadeType.ALL })
 	@OrderBy("port")
-    private List<ScanPort> scanPorts;
+	private List<ScanPort> scanPorts;
+
 	public List<ScanPort> getScanPorts() {
 		return scanPorts;
 	}

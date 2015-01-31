@@ -9,18 +9,19 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
- * Represents host alias table -- when more than one host maps to the same IP address
+ * Represents host alias table -- when more than one host maps to the same IP
+ * address
+ * 
  * @author aaryno1
  *
  */
 @Entity
 @Table(name = "HostAlias")
-public class HostAlias 
-{
+public class HostAlias {
 	@Id
 	@GeneratedValue
 	@Column(name = "id")
-    private Integer id;
+	private Integer id;
 
 	public Integer getId() {
 		return id;
@@ -30,10 +31,10 @@ public class HostAlias
 		this.id = id;
 	}
 
-    @ManyToOne
-    @JoinColumn(name="internetHostId")
-    private InternetHost internetHost;
-    
+	@ManyToOne
+	@JoinColumn(name = "internetHostId")
+	private InternetHost internetHost;
+
 	public InternetHost getInternetHost() {
 		return internetHost;
 	}
@@ -43,7 +44,7 @@ public class HostAlias
 	}
 
 	@Column(name = "fqdn")
-    private String fqdn;
+	private String fqdn;
 
 	public String getFqdn() {
 		return fqdn;

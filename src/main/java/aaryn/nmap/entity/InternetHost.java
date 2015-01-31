@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
 /**
  * Unique internet hosts based on their IP address
  * 
@@ -19,12 +20,11 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "InternetHost")
-public class InternetHost 
-{
+public class InternetHost {
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id")
-    private Integer id;
+	private Integer id;
 
 	public Integer getId() {
 		return id;
@@ -34,8 +34,8 @@ public class InternetHost
 		this.id = id;
 	}
 
-	@Column(name = "ip",unique=true)
-    private String ip;
+	@Column(name = "ip", unique = true)
+	private String ip;
 
 	public String getIp() {
 		return ip;
@@ -44,9 +44,9 @@ public class InternetHost
 	public void setIp(String ip) {
 		this.ip = ip;
 	}
-	
+
 	@Column(name = "ipType")
-    private String ipType;
+	private String ipType;
 
 	public String getIpType() {
 		return ipType;
@@ -56,8 +56,8 @@ public class InternetHost
 		this.ipType = ipType;
 	}
 
-    @OneToMany(mappedBy="internetHost", fetch=FetchType.EAGER, cascade={CascadeType.ALL})
-    private Set<HostAlias> hostAliases;
+	@OneToMany(mappedBy = "internetHost", fetch = FetchType.EAGER, cascade = { CascadeType.ALL })
+	private Set<HostAlias> hostAliases;
 
 	public Set<HostAlias> getHostAliases() {
 		return hostAliases;

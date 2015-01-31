@@ -12,7 +12,7 @@ import java.util.List;
 public class SiteScan {
 
 	private String host;
-	
+
 	private String ip;
 
 	private List<String> hostAliases;
@@ -23,16 +23,16 @@ public class SiteScan {
 	private List<Integer> closedFilteredPorts;
 	private List<Integer> filteredPorts;
 	private List<Integer> unfilteredPorts;
-	
+
 	public SiteScan() {
 		super();
-		openPorts=new ArrayList<>();
-		openFilteredPorts=new ArrayList<>();
-		closedPorts=new ArrayList<>();
-		closedFilteredPorts=new ArrayList<>();
-		filteredPorts=new ArrayList<>();
-		unfilteredPorts=new ArrayList<>();
-		hostAliases=new ArrayList<>();
+		openPorts = new ArrayList<>();
+		openFilteredPorts = new ArrayList<>();
+		closedPorts = new ArrayList<>();
+		closedFilteredPorts = new ArrayList<>();
+		filteredPorts = new ArrayList<>();
+		unfilteredPorts = new ArrayList<>();
+		hostAliases = new ArrayList<>();
 	}
 
 	public String getHost() {
@@ -106,5 +106,5 @@ public class SiteScan {
 	public void setUnfilteredPorts(List<Integer> unfilteredPorts) {
 		this.unfilteredPorts = unfilteredPorts;
 	}
-	
+
 }

@@ -76,3 +76,13 @@ The JSON schema for the SiteScanHistory is mapped by the POJO at aaryn.nmap.summ
 	 List<String> hostnames; 
  
 Ideally these schemas would be json schemas accessible by service... 
+
+6. BONUS - JAVADOC
+
+If you want to look at crude javadoc, build the javadoc from maven:
+
+> mvn javadoc:javadoc
+
+This will build the javadoc at target/site/apidocs/index.html.
+
+Enjoy!

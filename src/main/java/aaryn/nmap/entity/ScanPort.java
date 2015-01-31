@@ -10,7 +10,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
- * Hibernate entity class representing the states of individual ports associated with a single scan.
+ * Hibernate entity class representing the states of individual ports associated
+ * with a single scan.
+ * 
  * @author aaryno1
  *
  */
@@ -21,7 +23,7 @@ public class ScanPort {
 	@Id
 	@GeneratedValue
 	@Column(name = "id")
-	private int id; 
+	private int id;
 
 	public int getId() {
 		return id;
@@ -31,10 +33,10 @@ public class ScanPort {
 		this.id = id;
 	}
 
-	@ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="nmapScanId")    
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "nmapScanId")
 	private NmapScan nmapScan; // foreign key references NmapScan.id
-	
+
 	public NmapScan getNmapScan() {
 		return nmapScan;
 	}
@@ -43,10 +45,10 @@ public class ScanPort {
 		this.nmapScan = nmapScan;
 	}
 
-	@Column(name = "port", nullable=false)
+	@Column(name = "port", nullable = false)
 	private Integer port;
-	
-	public Integer getPort() {	
+
+	public Integer getPort() {
 		return port;
 	}
 
@@ -54,10 +56,10 @@ public class ScanPort {
 		this.port = port;
 	}
 
-	@Column(name = "state", nullable=false)
+	@Column(name = "state", nullable = false)
 	private String state;
-	
-	public String getState() {	
+
+	public String getState() {
 		return state;
 	}
 
@@ -65,12 +67,13 @@ public class ScanPort {
 		this.state = state;
 	}
 
-	public ScanPort(){
-		
+	public ScanPort() {
+
 	}
+
 	public ScanPort(Integer port, String state, NmapScan nmapScan) {
-		this.port=port;
-		this.state=state;
-		this.nmapScan=nmapScan;
+		this.port = port;
+		this.state = state;
+		this.nmapScan = nmapScan;
 	}
 }
