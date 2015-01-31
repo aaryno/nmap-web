@@ -63,7 +63,28 @@ public class NmapScannerDao {
 		tx.commit(); 
 		session.close();
 	}
-	
+	public void deleteInternetHost(InternetHost internetHost){
+		Session session = getSessionFactory().openSession();
+		Transaction tx=session.beginTransaction();
+		session.delete(internetHost);
+		tx.commit(); 
+		session.close();
+	}
+
+	public void saveHostAlias(HostAlias hostAlias){
+		Session session = getSessionFactory().openSession();
+		Transaction tx=session.beginTransaction();
+		session.saveOrUpdate(hostAlias);
+		tx.commit(); 
+		session.close();
+	}
+	public void deleteHostAlias(HostAlias hostAlias){
+		Session session = getSessionFactory().openSession();
+		Transaction tx=session.beginTransaction();
+		session.delete(hostAlias);
+		tx.commit(); 
+		session.close();
+	}
 	/**
 	 * Merge this internetHost with the copy in the database with the same IP
 	 * @param newInternetHost
@@ -90,13 +111,6 @@ public class NmapScannerDao {
 		return newInternetHost;
 	}
 	
-	public void saveHostAlias(HostAlias hostAlias){
-		Session session = getSessionFactory().openSession();
-		Transaction tx=session.beginTransaction();
-		session.saveOrUpdate(hostAlias);
-		tx.commit(); 
-		session.close();
-	}
 	
 	public void saveNmapScan(NmapScan nmapScan){
 		Session session = getSessionFactory().openSession();

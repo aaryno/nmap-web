@@ -51,7 +51,7 @@ public class NmapScanner {
 		} catch (Throwable t) {
 			System.err.println(t.getMessage());
 			NmapScan nmapScan=new NmapScan();
-			nmapScan.setScanDate(new java.sql.Date(Calendar.getInstance().getTime().getTime()));
+			nmapScan.setScanDate(new java.sql.Timestamp(Calendar.getInstance().getTime().getTime()));
 			return nmapScan;
 		} finally {
 			File f=new File(outputFile);
@@ -133,7 +133,7 @@ public class NmapScanner {
 			   nmapScan.setHostFound(true);
 			   System.out.println("host element found");
 			   Element addressElement=hostElement.getChild("address");
-			   nmapScan.setScanDate(new java.sql.Date(Calendar.getInstance().getTimeInMillis()));
+			   nmapScan.setScanDate(new java.sql.Timestamp(Calendar.getInstance().getTimeInMillis()));
 			   InternetHost internetHost=null;
 			   if (addressElement!=null){
 				   String ip=addressElement.getAttributeValue("addr");

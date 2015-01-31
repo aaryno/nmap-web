@@ -1,0 +1,5 @@
+
+update src/main/resources/hibernate.cfg.xml with mysql hostname/credentials
+update src/main/resources/nmapweb.properties with path to nmap
+
+mvn clean package install java:exec

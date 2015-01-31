@@ -12,13 +12,14 @@
     <property name="hibernate.connection.password">falcon</property>
     <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
     <property name="show_sql">false</property>
-    <property name="hibernate.hbm2ddl.auto">create</property>
-    <property name="hibernate.current_session_context_class">org.hibernate.context.ThreadLocalSessionContext</property>
+    <property name="hibernate.hbm2ddl.auto">update</property>
+<!--     <property name="hibernate.hbm2ddl.auto">update</property> --> 
+	<property name="hibernate.current_session_context_class">org.hibernate.context.ThreadLocalSessionContext</property>
     
     <mapping class="aaryn.nmap.entity.InternetHost"/>
-    <mapping class="aaryn.nmap.entity.HostAlias"/> 
+    <mapping class="aaryn.nmap.entity.HostAlias"/>
     <mapping class="aaryn.nmap.entity.NmapScan"/>
-    <mapping class="aaryn.nmap.entity.ScanPort"/> 
+    <mapping class="aaryn.nmap.entity.ScanPort"/>
     
   </session-factory>
 </hibernate-configuration>

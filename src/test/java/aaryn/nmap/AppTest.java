@@ -1,4 +1,4 @@
-package aaryn.nmap;
+	package aaryn.nmap;
 
 import java.io.IOException;
 import java.util.List;
@@ -127,7 +127,7 @@ public class AppTest
     		System.out.println("Saving object");
 	        NmapScannerDao.getInstance().saveInternetHost(host);
 
-	        assert(true);
+	        NmapScannerDao.getInstance().deleteInternetHost(host);
     	} catch (Exception e){
     		e.printStackTrace();
     		fail("Unable to insert: "+e.getMessage());
@@ -136,12 +136,23 @@ public class AppTest
 
     public void testDatabaseQuery() {
     	try {
+	        String ip="1.1.1.1";
 
-	        String ip="google.com";
+	        InternetHost host = new InternetHost();
+	 
+	        host.setIp(ip);
+    		System.out.println("Saving object");
+	        NmapScannerDao.getInstance().saveInternetHost(host);
+	        
     		InternetHost internetHost=NmapScannerDao.getInstance().retrieveHostByIp(ip);
 	 
 	        assert(internetHost!=null);
 	        assert(ip.equals(internetHost.getIp()));
+
+	        NmapScannerDao.getInstance().deleteInternetHost(host);
+	        internetHost=NmapScannerDao.getInstance().retrieveHostByIp(ip);
+	 
+	        assert(internetHost==null);
     	} catch (Exception e){
     		e.printStackTrace();
     		fail("Unable to fetch: "+e.getMessage());
@@ -160,10 +171,10 @@ public class AppTest
     	hostAlias.setInternetHost(internetHost);
     	NmapScannerDao.getInstance().saveHostAlias(hostAlias);
     	
-        hostAlias=new HostAlias();
-    	hostAlias.setFqdn("a.b.c.Z");
-    	hostAlias.setInternetHost(internetHost);
-    	NmapScannerDao.getInstance().saveHostAlias(hostAlias);
+    	HostAlias hostAlias2=new HostAlias();
+    	hostAlias2.setFqdn("a.b.c.Z");
+    	hostAlias2.setInternetHost(internetHost);
+    	NmapScannerDao.getInstance().saveHostAlias(hostAlias2);
 
     	InternetHost host=NmapScannerDao.getInstance().retrieveHostByFqdn("a.b.c.d");
     	assertTrue(host!=null);
@@ -186,6 +197,10 @@ public class AppTest
     	assertTrue(host2.getId().intValue()==internetHost.getId().intValue());
     	InternetHost host3=NmapScannerDao.getInstance().retrieveHost("1.2.3.4");
     	assertTrue(host3.getId().intValue()==internetHost.getId().intValue());
+
+    	NmapScannerDao.getInstance().deleteHostAlias(hostAlias);
+    	NmapScannerDao.getInstance().deleteHostAlias(hostAlias2);
+    	NmapScannerDao.getInstance().deleteInternetHost(internetHost);
     }
 
     /**

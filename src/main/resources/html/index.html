@@ -1,0 +1,160 @@
+<html>
+<head>
+<title>Nmap scanning utility</title>
+</head>
+<body>
+
+	<script src="/html/jquery-1.11.2.min.js"></script>
+	<script>
+		if (typeof String.prototype.startsWith != 'function') {
+		  // see below for better implementation!
+		  String.prototype.startsWith = function (str){
+		    return this.indexOf(str) == 0;
+		  };
+		}
+		$(document).ready(function() {
+			$(document).keypress(function(e){
+			    if (e.which == 13){
+			        $("#scanButton").click();
+			    }
+			});
+			$("#scanButton").click(function(event) {
+				// notify Scanning...
+				var hosts=$("#host").val().split(",");
+		        
+				$("#results").text('');
+				$("#changes").text('');
+				$("#history").text('');
+
+				$.each(hosts, function (i, host){
+					$("#results").add('<div id="results.'+host+'"/>"');
+					$("#changes").add('<div id="changes.'+host+'"/>"');
+					$("#history").add('<div id="history.'+host+'"/>"');
+					$("#scanning").add('<div id="scanning.'+host+'"/>"');
+
+			        var scanHostUrl = '/nmap/scan/'+host;
+					$("#scanning."+host).append('Scanning '+host+'...<br>');
+
+					var result = "";
+					$.get(scanHostUrl, function (data) {
+					    displayScanResults(data,host);
+					});
+				});
+				
+
+				function displayScanResults(data,host) {
+					if (data==null){
+						$("#scanning."+host).append(" Invalid host. Please Resubmit");
+					} else {
+						var scanHtml='';
+						$.each(data, function (i,item) {
+							scanHtml+='<p>IP address: '+item.ip+'<br/>';
+							scanHtml+='Open ports: ';
+							var k=0;
+							$.each(item.openPorts, function (j, port){
+								if (k>0){ 
+									scanHtml+=', ';
+								}
+								k++;
+								scanHtml+='<span id="'+item.ip+'.'+port+'">'+port+'</span>';
+							});
+							scanHtml+='</p>';
+	
+							$("#results."+host).append('Scan results'+scanHtml);
+						});
+						$("#scanning."+host).text('');
+
+				        var historyHostUrl = '/nmap/history/'+host;
+						$.get(historyHostUrl, function (data) {
+						    displayHistoryResults(data,host);
+						});
+					}
+				}
+
+				function displayHistoryResults(siteScanHistory,host) {
+					var historyHtml='';
+					var changesHtml='';
+					historyHtml='<p>Scan history for '+host+'- <span style="color: Red;">red</span> denotes change in status<br/>';
+					historyHtml+='<table><tr><th>&nbsp;</th>';
+					var secondRow='<tr><th>&nbsp;</th>'
+					var lastymd=''
+					for (i=0; i<siteScanHistory.scanDates.length; i++){
+						var ymd=siteScanHistory.scanDates[i].substring(0,10);
+						var t=siteScanHistory.scanDates[i].substring(11,19);
+						if (lastymd==ymd){
+							historyHtml+='<th>&nbsp;</th>';
+						} else {
+							historyHtml+='<th>'+ymd+'</th>';
+						}
+						lastymd=ymd;
+						secondRow+='<th>'+t+'</th>';
+					}
+					historyHtml+='</tr>';
+					secondRow+='</tr>';
+					historyHtml+=secondRow;
+
+					// build each row
+					var changes=false;
+					for (i=0; i<siteScanHistory.ports.length; i++){
+						var port=siteScanHistory.ports[i];
+						varThisRow='<tr><td>'+port+'</td>';
+						var interestingPort=false;
+						for (j=0; j<siteScanHistory.scanDates.length; j++){
+							var scanRow=siteScanHistory.portStateArray[j];
+							var state=siteScanHistory.portStateArray[j].item[i];
+							
+							if (j>0 && state != siteScanHistory.portStateArray[j-1].item[i]){
+								var oldstate=siteScanHistory.portStateArray[j-1].item[i];
+								// note some change in open/closed ports
+								varThisRow+='<td style="color: Red;">'+state+'</td>';
+								if (j==siteScanHistory.scanDates.length-1){
+									if (!changes){
+										changesHtml+='<p>Changes for '+host+'<br/>';
+										changesHtml=true;
+									}
+									changesHtml+='port: '+port+' is: '+state+' -- was: '+oldstate+'<br/>';
+								}
+							} else {
+								varThisRow+='<td>'+state+'</td>';
+							}
+							/* console.log(i+','+j+','+state); */
+							if (state!=null && state.startsWith('open')){
+								interestingPort=true;
+							/* 	console.log('Interesting: '+state+' at '+i+','+j); */
+							}
+						}
+						varThisRow+='</tr>';
+							
+						if (interestingPort){
+							historyHtml+=varThisRow;
+						}
+					}
+					if (!changes){
+
+						changesHtml+='<p>Changes<br/>No changes in port status from last scan</p>';
+					} else {
+						changesHtml+='</p>';
+					}
+					historyHtml+='</table></p>';
+					$("#history."+host).append(historyHtml);
+					$("#changes."+host).append(changesHtml);
+				}
+			});
+		});
+		
+	</script>
+	<div id="form">
+		<p>
+		<form>
+			Enter host: <input id="host" type="text" size="40" />
+			<button type="button" id="scanButton">Scan</button>
+		</form>
+		</p>
+	</div>
+	<div id="host"></div>
+	<div id="scanning"></div>
+	<div id="results"></div>
+	<div id="changes"></div>
+	<div id="history"></div>
+</body>
+</html>

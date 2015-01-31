@@ -1,6 +1,7 @@
 package aaryn.nmap.entity;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,14 +38,25 @@ public class NmapScan {
 		this.id = id;
 	}
 
-	@Column(name = "scanDate")
-	private Date scanDate;
+	@Column(name="error")
+	private String error;
+	
+	public String getError() {
+		return error;
+	}
 
-	public Date getScanDate() {
+	public void setError(String error) {
+		this.error = error;
+	}
+
+	@Column(name = "scanDate")
+	private Timestamp scanDate;
+
+	public Timestamp getScanDate() {
 		return scanDate;
 	}
 
-	public void setScanDate(Date scanDate) {
+	public void setScanDate(Timestamp scanDate) {
 		this.scanDate = scanDate;
 	}
 
