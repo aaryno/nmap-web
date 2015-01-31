@@ -11,7 +11,10 @@ import java.io.IOException;
 import java.net.URI;
 
 /**
- * Main class.
+ * Main application -- this launches on localhost 8080 (or whatever is specified by grizzly_port in
+ * properties) and runs until the user hits ENTER in the console window used to launch this.
+ * 
+ * @author aaryno1
  *
  */
 public class Main {
@@ -56,8 +59,8 @@ public class Main {
      */
     public static void main(String[] args) throws IOException {
         final HttpServer server = startServer();
-        System.out.println(String.format("Jersey app started with WADL available at "
-                + "%sapplication.wadl\nHit enter to stop it...", BASE_URI));
+        System.out.println(String.format("Launching simple nmap web-based scanner. "
+                + "Start at %shtml/index.html\nHit enter to stop it...", BASE_URI));
         System.in.read();
         server.stop();
     }

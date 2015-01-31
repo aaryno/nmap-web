@@ -19,8 +19,6 @@ import aaryn.nmap.entity.NmapScan;
 /**
  * Dao class for interacting with nmap scanner database
  * 
- * Some shortcomings with this approach: 
- * 
  * @author aaryno1
  *
  */

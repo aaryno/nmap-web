@@ -1,6 +1,5 @@
 package aaryn.nmap.entity;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -10,6 +9,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+/**
+ * Hibernate entity class representing the states of individual ports associated with a single scan.
+ * @author aaryno1
+ *
+ */
 @Entity
 @Table(name = "ScanPort")
 public class ScanPort {

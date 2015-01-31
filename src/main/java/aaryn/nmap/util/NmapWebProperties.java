@@ -4,7 +4,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-
+/**
+ * Singleton class used to read properties only once for the whole application
+ * 
+ * @author aaryno1
+ *
+ */
 public class NmapWebProperties {
 
 	private static NmapWebProperties instance;

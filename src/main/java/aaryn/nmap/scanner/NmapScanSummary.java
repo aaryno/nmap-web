@@ -6,6 +6,12 @@ import java.util.Map;
 
 import aaryn.nmap.PortState;
 
+/**
+ * Contains detailed information about an individual nmap scan.
+ * 
+ * @author aaryno1
+ *
+ */
 public class NmapScanSummary {
 
 	private Map<Integer,PortState> portStates;

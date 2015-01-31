@@ -1,6 +1,5 @@
 package aaryn.nmap.entity;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +16,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
+/**
+ * Hibernate entity class representing the guts of an nmap scan, including the host,
+ * the scan time, and all the port states.
+ * 
+ * @author aaryno1
+ *
+ */
 @Entity
 @Table(name = "NmapScan")
 public class NmapScan {

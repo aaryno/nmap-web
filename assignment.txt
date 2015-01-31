@@ -35,8 +35,7 @@ Technical Requirements:
 	Project needs to be written in Python, PHP, Scala, Go, or Java	
 	Project needs to use the NMAP command line tool
 	Port scan history must be stored and displayed via a MySQL database
-a README should be provided with instructions on how to run the project assuming the person running it has 
-MySQL installed
+	a README should be provided with instructions on how to run the project assuming the person running it has MySQL installed
 
 Bonus Points (can be none, or 1 or more):
 Ability to input multiple IPs or hosts and the scans of those ip/hosts are done in parallel

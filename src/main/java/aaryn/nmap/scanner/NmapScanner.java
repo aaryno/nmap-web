@@ -24,14 +24,35 @@ import aaryn.nmap.entity.InternetHost;
 import aaryn.nmap.entity.NmapScan;
 import aaryn.nmap.entity.ScanPort;
 import aaryn.nmap.util.NmapWebProperties;
-
+/**
+ * Uses nmap to scan a host. nmap path must be specified in 
+ * src/main/resources/nmapweb.properties. Output is generated as xml using
+ * the -oX option. Ports are 0-1000 by default but can accept an arbitrary
+ * list (e.g., 1-5,80-90,95).
+ * 
+ * @author aaryno1
+ *
+ */
 public class NmapScanner {
 	private static Map<Integer,String> portStateMap =new HashMap<>();
-	private static String ports="0-100";
+	private static String ports="0-1000";
 
+	/**
+	 * retrieve all historical scans for this host
+	 * @param host
+	 * @return
+	 */
 	public static List<NmapScan> getScans(String host){
 		return NmapScannerDao.getInstance().retrieveNmapScansByHost( host);
 	}
+	/**
+	 * perform a scan on a host over a range of ports
+	 * 
+	 * @param host
+	 * @param portRange
+	 * @return
+	 * @throws IOException
+	 */
 	public static NmapScan scan(String host, String portRange) throws IOException
 	{
 		List<Integer> ports=getPortsFromPortRange(portRange);
@@ -61,6 +82,11 @@ public class NmapScanner {
 		}
 	}
 	
+	/**
+	 * turn the port list as a string into a list of Integers.
+	 * @param portRange
+	 * @return
+	 */
 	private static List<Integer> getPortsFromPortRange(String portRange) {
 		List<Integer> ports=new ArrayList<Integer>();
 		String[] tokens=portRange.split(",");

@@ -1,9 +1,26 @@
+<!-- 
+The Nmap scanning utility shows a single text box in which users can enter one or more comma 
+separated host names or ip addresses. Nmap is run asynchronously (and in parallel if there
+are more than one host provided) and results are returned in three formats:
+
+1) a list of open ports for each host
+2) a history of interesting ports (i.e., all ports which have been opened at some time when we scanned them)
+3) a summary of port changes between the current and most recent scan
+
+Architecturally, this page iterates over all the hosts provided in the text box as triggered
+the button click. In each iteration, a call is made to the rest service at /nmap/scan/{host}.
+When results are returned, the JSON is parsed and the open ports are listed on the page. A
+second rest query is fired off to request the full scan history for the same site. Those
+results are returned as a series of arrays or which ports were in which state on which day.
+They are tabulated and notable changes are highlighted and added to a special section for
+changes.
+
+ -->
 <html>
 <head>
 <title>Nmap scanning utility</title>
 </head>
 <body>
-
 	<script src="/html/jquery-1.11.2.min.js"></script>
 	<script>
 		$(document).ready(function() {

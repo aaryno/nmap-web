@@ -29,9 +29,15 @@ database (or whatever you decide to name it).
 
 Run the unit tests, build, and deploy locally using Jersey and Grizzly:
 
-> mvn clean package install exec:java
+> mvn clean package install
 
 4. WEB APPLICATION
+
+Deploy the grizzly engine using maven:
+
+> mvn exec:java
+
+It will continue to run until you press Enter key on the console.
 
 Once the application is up and running, go to your web browser. The default url is 
 http://localhost:8080/html/index.html. If you changed the port in the nmapweb.properties

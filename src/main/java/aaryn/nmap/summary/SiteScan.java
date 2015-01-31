@@ -3,6 +3,12 @@ package aaryn.nmap.summary;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Information associated with a single scan
+ * 
+ * @author aaryno1
+ *
+ */
 public class SiteScan {
 
 	private String host;

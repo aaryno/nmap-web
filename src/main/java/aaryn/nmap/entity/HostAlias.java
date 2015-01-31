@@ -8,6 +8,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+/**
+ * Represents host alias table -- when more than one host maps to the same IP address
+ * @author aaryno1
+ *
+ */
 @Entity
 @Table(name = "HostAlias")
 public class HostAlias 

@@ -1,6 +1,5 @@
 package aaryn.nmap.entity;
 
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -11,10 +10,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
-
+/**
+ * Unique internet hosts based on their IP address
+ * 
+ * @author aaryno1
+ *
+ */
 @Entity
 @Table(name = "InternetHost")
 public class InternetHost 

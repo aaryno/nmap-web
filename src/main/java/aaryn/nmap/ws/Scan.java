@@ -19,11 +19,14 @@ import aaryn.nmap.scanner.NmapScanner;
 import aaryn.nmap.summary.SiteScan;
 import aaryn.nmap.summary.SiteScanFactory;
 import aaryn.nmap.summary.SiteScanHistory;
-import aaryn.nmap.summary.SiteScanHistoryFactory;
 
 /** 
- * Credit goes to https://mytecc.wordpress.com/2013/05/13/jersey-jsp-view-running-on-grizzly-server/
- * for working sample of getting the JSP example working
+ * Web service implementations for single site scan and historical site scan
+ * path to single site scan is /nmap/scan/{host}
+ * path to historical site scan is /nmap/history/{host}
+ * 
+ * Results are returned in JSON according to the default schema derived by 
+ * Jackson ObjectMapper from aaryn.nmap.summary.SiteScan and aaryn.nmap.summary.SiteScanHistory.
  * 
  * @author aaryno1
  *
@@ -99,7 +102,7 @@ public class Scan {
     public SiteScanHistory getHistory(
     @PathParam("host") String host) {
 		List<aaryn.nmap.entity.NmapScan> nmapScans=NmapScannerDao.getInstance().retrieveNmapScansByHost(host);
-		SiteScanHistory history = SiteScanHistoryFactory.buildSiteScanHistory(nmapScans);
+		SiteScanHistory history = SiteScanFactory.buildSiteScanHistory(nmapScans);
 		return history;
     }
 }
